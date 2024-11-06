@@ -1,27 +1,113 @@
-# QuillAngularExample
+# Quill Rich Text Editor in Angular with custom fonts
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.11.
+![Beschreibung des Bildes](./img.png)
 
-## Development server
+## Steps to integrate Quill Editor in Angular with custom fonts.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+I will use FiraCode font in this example. As it is the best font in entire universe.
 
-## Code scaffolding
+## Prepare, download fonts
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Link to download FiraCode font: https://github.com/tonsky/FiraCode
+FiraCode-Regular.ttf is in `/public` folder.
 
-## Build
+## Install ngx-quill
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash	
+npm install ngx-quill
+```
 
-## Running unit tests
+Create a toolbar configuration. Pay attention to the font property. I added 'firacode' there.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```typescript
+const modules = {
+  toolbar: [
+    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+    ['blockquote', 'code-block'],
 
-## Running end-to-end tests
+    [{'header': 1}, {'header': 2}],               // custom button values
+    [{'list': 'ordered'}, {'list': 'bullet'}],
+    [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+    [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+    [{'direction': 'rtl'}],                         // text direction
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+    [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+    [{'header': [1, 2, 3, 4, 5, 6, false]}],
 
-## Further help
+    [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+    [{'font': ['firacode']}],
+    [{'align': []}],
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+    ['clean'],                                         // remove formatting button
+
+    ['link', 'image', 'video']                         // link and image, video
+  ]
+};
+
+```
+
+## Add quill-editor tag
+
+```html
+
+<quill-editor
+  format="text"
+  [(ngModel)]="content"
+  [modules]="quillConfiguration"
+  (onContentChanged)="onContentChanged($event)"
+  [placeholder]="'Winter is coming...'"
+
+></quill-editor>
+```
+
+## Prepare Styling
+
+Extend your angular.json file with the following styles.
+
+```json
+  "styles": [
+"src/styles.scss",
+"quill/dist/quill.core.css",
+"quill/dist/quill.snow.css"
+]
+```
+
+## Add styling to your global styles.scss file.
+
+```scss
+[quill-editor-toolbar] .ql-font span[data-label="Fira Code"]::before {
+  font-family: "Fira Code";
+}
+
+.ql-font-firacode {
+  font-family: "Fira Code";
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=firacode]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=firacode]::before {
+  content: 'Fira Code';
+}
+```
+
+## Add provider into app.config.ts
+
+```typescript
+
+provideQuillConfig({
+  customOptions: [{
+    import: 'formats/font',
+    whitelist: ['firacode', 'roboto', 'serif', 'monospace']
+  }]
+})
+
+```
+
+## Embed fonts in your index.html file.
+
+Google Roboto Example
+
+```html
+
+<link href="https://fonts.googleapis.com/css?family=Fira+Code" rel="stylesheet">
+  ```
+  
+you also need to repeat css steps for roboto.

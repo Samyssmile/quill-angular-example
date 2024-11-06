@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+[quill-editor-toolbar] .ql-font span[data-label="Fira Code"]::before {
+  font-family: "Fira Code";
+}
+
+.ql-font-firacode {
+  font-family: "Fira Code";
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=firacode]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=firacode]::before {
+  content: 'Fira Code';
+}
+
+[quill-editor-toolbar] .ql-font span[data-label="Roboto"]::before {
+  font-family: "Roboto";
+}
+
+.roboto {
+  font-family: "Roboto", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=roboto]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=roboto]::before {
+  content: 'Roboto';
+}
+

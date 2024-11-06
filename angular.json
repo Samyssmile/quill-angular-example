@@ -32,7 +32,9 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "quill/dist/quill.core.css",
+              "quill/dist/quill.snow.css"
             ],
             "scripts": []
           },
@@ -98,5 +100,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "2583aac2-8aac-4294-915a-2f1a2f5ffcee"
   }
 }
